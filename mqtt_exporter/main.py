@@ -50,7 +50,7 @@ def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
     for metric, value in payload.items():
         # we only expose numeric values
         state_values = {"ON": 1, "OFF": 0}
-        if value in state_values:
+        if value in state_values.keys():
             metric_value = state_values[value]
         else:
             try:
