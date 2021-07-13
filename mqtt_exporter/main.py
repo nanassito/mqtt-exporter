@@ -49,11 +49,15 @@ def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
 
     for metric, value in payload.items():
         # we only expose numeric values
-        try:
-            metric_value = float(value)
-        except (ValueError, TypeError):
-            LOG.debug("Failed to convert %s: %s", metric, value)
-            continue
+        state_values = {"ON": 1, "OFF": 0)
+        if value in state_values:
+            metric_value = state_values[value]
+        else:
+            try:
+                metric_value = float(value)
+            except (ValueError, TypeError):
+                LOG.debug("Failed to convert %s: %s", metric, value)
+                continue
 
         # create metric if does not exist
         prom_metric_name = f"{settings.PREFIX}{metric}"
